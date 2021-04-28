@@ -19,9 +19,6 @@ const Header = ({ name, title, isHomePage }) => {
 						<SocialBar
 							linkedin='https://linkedin.com/in/federicoantuna/'
 							github='https://github.com/fedeantuna'
-							spacing={2}
-							mtop={2}
-							iconSize={7}
 						/>
 					</div>
 				</div>
@@ -44,11 +41,9 @@ const Header = ({ name, title, isHomePage }) => {
 						</h2>
 						<h2 className='m-0 text-sm'>{title}</h2>
 						<SocialBar
+							small
 							linkedin='https://www.linkedin.com/in/federicoantuna/'
 							github='https://github.com/fedeantuna'
-							spacing={1}
-							mtop={1}
-							iconSize={4}
 						/>
 					</div>
 				</div>
