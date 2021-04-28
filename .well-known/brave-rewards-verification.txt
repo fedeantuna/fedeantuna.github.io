@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: fedeantuna.github.io
+Token: 47827be85039b5026f3976954c09a7d4b7fba007c266448401c43f1cdb4fa413
