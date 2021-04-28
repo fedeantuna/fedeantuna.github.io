@@ -1,0 +1,441 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><link rel="icon" href="/favicon.ico"/><title>How to build a .NET Core 3.1 Console Application with built-in Dependency Injection, Configuration and Logging</title><base target="_blank"/><meta name="next-head-count" content="5"/><link rel="preload" href="/_next/static/css/298f5a74d90713701ec7.css" as="style"/><link rel="stylesheet" href="/_next/static/css/298f5a74d90713701ec7.css" data-n-g=""/><noscript data-n-css=""></noscript><link rel="preload" href="/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" as="script"/><link rel="preload" href="/_next/static/chunks/framework.4b81eedf2fcdb09bf521.js" as="script"/><link rel="preload" href="/_next/static/chunks/commons.4825e5e9d187cd4ab7dd.js" as="script"/><link rel="preload" href="/_next/static/chunks/main-86c34d104cdfe5877fdd.js" as="script"/><link rel="preload" href="/_next/static/chunks/pages/_app-6845169ed0c82dde6599.js" as="script"/><link rel="preload" href="/_next/static/chunks/63c1bd8fe8e29f7d1674476eb835b66f2691ac72.e2e40b0b868ffac3db3c.js" as="script"/><link rel="preload" href="/_next/static/chunks/pages/article/%5Bid%5D-a1e1aaf80fe42cc5b9f0.js" as="script"/></head><body><div id="__next"><div class="container sm:m-auto"><header><div class="flex space-x-5 justify-end mt-5 mr-2 lg:mr-0"><a class="w-16 h-16" href="/"><img class="m-0 rounded-full border border-gray-100 shadow-sm" src="/images/profile.png" alt="Federico Antuña"/></a><div class="self-center"><h2 class="m-0"><a href="/">Federico Antuña</a></h2><h2 class="m-0 text-sm">Software Developer</h2><div class="flex justify-center space-x-1 mt-1"><div><a href="https://www.linkedin.com/in/federicoantuna/" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 f fill-current text-gray-400 hover:text-blue-500"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></a></div><div><a href="https://github.com/fedeantuna" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 f fill-current text-gray-400 hover:text-black"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM277.3 415.7c-8.4 1.5-11.5-3.7-11.5-8 0-5.4.2-33 .2-55.3 0-15.6-5.2-25.5-11.3-30.7 37-4.1 76-9.2 76-73.1 0-18.2-6.5-27.3-17.1-39 1.7-4.3 7.4-22-1.7-45-13.9-4.3-45.7 17.9-45.7 17.9-13.2-3.7-27.5-5.6-41.6-5.6-14.1 0-28.4 1.9-41.6 5.6 0 0-31.8-22.2-45.7-17.9-9.1 22.9-3.5 40.6-1.7 45-10.6 11.7-15.6 20.8-15.6 39 0 63.6 37.3 69 74.3 73.1-4.8 4.3-9.1 11.7-10.6 22.3-9.5 4.3-33.8 11.7-48.3-13.9-9.1-15.8-25.5-17.1-25.5-17.1-16.2-.2-1.1 10.2-1.1 10.2 10.8 5 18.4 24.2 18.4 24.2 9.7 29.7 56.1 19.7 56.1 19.7 0 13.9.2 36.5.2 40.6 0 4.3-3 9.5-11.5 8-66-22.1-112.2-84.9-112.2-158.3 0-91.8 70.2-161.5 162-161.5S388 165.6 388 257.4c.1 73.4-44.7 136.3-110.7 158.3zm-98.1-61.1c-1.9.4-3.7-.4-3.9-1.7-.2-1.5 1.1-2.8 3-3.2 1.9-.2 3.7.6 3.9 1.9.3 1.3-1 2.6-3 3zm-9.5-.9c0 1.3-1.5 2.4-3.5 2.4-2.2.2-3.7-.9-3.7-2.4 0-1.3 1.5-2.4 3.5-2.4 1.9-.2 3.7.9 3.7 2.4zm-13.7-1.1c-.4 1.3-2.4 1.9-4.1 1.3-1.9-.4-3.2-1.9-2.8-3.2.4-1.3 2.4-1.9 4.1-1.5 2 .6 3.3 2.1 2.8 3.4zm-12.3-5.4c-.9 1.1-2.8.9-4.3-.6-1.5-1.3-1.9-3.2-.9-4.1.9-1.1 2.8-.9 4.3.6 1.3 1.3 1.8 3.3.9 4.1zm-9.1-9.1c-.9.6-2.6 0-3.7-1.5s-1.1-3.2 0-3.9c1.1-.9 2.8-.2 3.7 1.3 1.1 1.5 1.1 3.3 0 4.1zm-6.5-9.7c-.9.9-2.4.4-3.5-.6-1.1-1.3-1.3-2.8-.4-3.5.9-.9 2.4-.4 3.5.6 1.1 1.3 1.3 2.8.4 3.5zm-6.7-7.4c-.4.9-1.7 1.1-2.8.4-1.3-.6-1.9-1.7-1.5-2.6.4-.6 1.5-.9 2.8-.4 1.3.7 1.9 1.8 1.5 2.6z"></path></svg></a></div></div></div></div></header><main class="mr-3 ml-3 lg:mr-0 lg:ml-0"><article><h1 class="text-center text-2xl mt-5">How to build a .NET Core 3.1 Console Application with built-in Dependency Injection, Configuration and Logging</h1><div class="text-center text-sm"><time dateTime="2020-02-08">February 8, 2020</time></div><div class="mt-2 mb-5"><p>If you ever wrote an ASP.NET Core Web Application or API, you surely know that the framework itself leans you into using its own Container for Dependency Injection. The same thing happens with the Configuration and Logging features. They are great, light weight and easy to use out of the box solutions for ASP.NET Core, but not as out of the box for a simple Console Application.</p>
+<p>I'm assuming you already have everything installed and know enough to use NuGet Packages, the basics of Dependency Injection, Configuration and Logging since we will not be diving into that here. This article is about how to set up a Console Application to take advantage of those features.</p>
+<h2>Lets Code!</h2>
+<p><em>If you just want to follow the guide without writing the code yourself, you can follow the link to my GitHub repository that has the code we are going to follow.</em></p>
+<p><a href="https://github.com/fedeantuna/ConsoleAppWithDI">GitHub Repository</a></p>
+<h2>Adding Dependency Injection to Console App</h2>
+<p>I'll be using the Command Line Interface and Visual Studio Code on a Fedora 31 machine, but you should be able to follow this from any environment you want.</p>
+<p>Open your terminal, create a directory and inside, a Console App project.</p>
+<pre><code>mkdir ConsoleAppWithDI
+cd ConsoleAppWithDI
+dotnet new sln
+dotnet new console -n ConsoleAppWithDI.UI
+dotnet sln add ConsoleAppWithDI.UI/ConsoleAppWithDI.UI.csproj
+</code></pre>
+<p>These commands will set up the typical Solution with the Console App project. Now lets add the required NuGet package for DI: Microsoft.Extensions.DependencyInjection</p>
+<pre><code>cd ConsoleAppWithDI.UI
+dotnet add package Microsoft.Extensions.DependencyInjection
+</code></pre>
+<p>Open the solution in your favorite IDE, if you are on Windows with Visual Studio installed, you can just double click the created Solution. I'm going to open this on Visual Studio Code.</p>
+<pre><code>cd ..
+code .
+</code></pre>
+<p>As in an ASP.NET Core Application, we will configure multiple services and instantiate a provider. So lets start by creating the Startup class in a Startup.cs file in the same directory that is our Program.cs.</p>
+<pre><code>using Microsoft.Extensions.DependencyInjection;
+
+namespace ConsoleAppWithDI.UI
+{
+    public static class Startup
+    {
+        public static IServiceCollection ConfigureServices()
+        {
+            var serviceCollection = new ServiceCollection();
+
+            // We'll come back here later to set up an entry point and
+            // our services
+
+            return serviceCollection;
+        }
+    }
+}
+</code></pre>
+<p>Now lets add the class for the Entry Point of our Application. I usually name this class as EntryPoint but you can name it whatever you want!</p>
+<pre><code>using System;
+
+namespace ConsoleAppWithDI.UI
+{
+    public class EntryPoint
+    {
+        public void Run(String[] args)
+        {
+            // Our logic
+        }
+    }
+}
+</code></pre>
+<p>We already have the Entry Point and the Container ready to set up services, but we need to put all of this together. If we run the application like it is, it will just output "Hello world!" and ignore everything else we did. We have to replace the code on our Main method, inside our Program class, to call the DI Container and our new Entry Point.</p>
+<pre><code>using System;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace ConsoleAppWithDI.UI
+{
+    public class Program
+    {
+        public static void Main(String[] args)
+        {
+            var services = Startup.ConfigureServices();
+            var serviceProvider = services.BuildServiceProvider();
+
+            serviceProvider.GetService&#x3C;EntryPoint>().Run(args);
+        }
+    }
+}
+</code></pre>
+<p>And now we register the EntryPoint class as a transient in the Startup class</p>
+<pre><code>...
+
+public static IServiceCollection ConfigureServices()
+{
+    var services = new ServiceCollection();
+
+    services.AddTransient&#x3C;EntryPoint>();
+
+    return services;
+}
+
+...
+</code></pre>
+<p>Alright! We have everything set up for DI! Now we are able to use our Startup class to configure the container as we would on a ASP.NET Core Application. Lets add a small service that we can inject to see if everything works as expected! Lets try to calculate the roots of a second degree polynomial, ignoring complex roots. If you don't know or don't remember, here is the formula we have to use</p>
+<p><img src="/images/console-app-with-di-configuration-and-logging-01.png" alt="quadratic formula"></p>
+<p>Lets start by adding a QuadraticRoots entity. I won't be following any pattern here, so please don't take this as a DDD guide, it's just a simple example to test out our Dependency Injection.</p>
+<pre><code>using System;
+
+namespace ConsoleAppWithDI.UI.Entities
+{
+    public class QuadraticRoots
+    {
+        public Double FirstRoot { get; set; }
+        public Double SecondRoot { get; set; }
+    }
+}
+</code></pre>
+<p>Now we will add the Interface for our service.</p>
+<pre><code>using System;
+using ConsoleAppWithDI.UI.Entities;
+
+namespace ConsoleAppWithDI.UI.Services
+{
+    public interface IQuadraticService
+    {
+        QuadraticRoots CalculateRoots(Double a, Double b, Double c);
+    }
+}
+</code></pre>
+<p>And the actual service.</p>
+<pre><code>using System;
+using ConsoleAppWithDI.UI.Entities;
+
+namespace ConsoleAppWithDI.UI.Services
+{
+    public class QuadraticService : IQuadraticService
+    {
+        public QuadraticRoots CalculateRoots(Double a, Double b, Double c)
+        {
+            var discriminant = Math.Pow(b, 2) - (4 * a * c);
+
+            if (discriminant &#x3C; 0)
+            {
+                return null;
+            }
+
+            var quadraticRoots = new QuadraticRoots();
+
+            if (discriminant ==  0)
+            {
+                quadraticRoots.FirstRoot = quadraticRoots.SecondRoot = ((- b) + (Math.Sqrt(discriminant))) / (2 * a);
+            }
+            else
+            {
+                quadraticRoots.FirstRoot = ((- b) + (Math.Sqrt(discriminant))) / (2 * a);
+                quadraticRoots.SecondRoot = ((- b) - (Math.Sqrt(discriminant))) / (2 * a);
+            }
+
+            return quadraticRoots;
+        }
+    }
+}
+</code></pre>
+<p>Lets go back to our Startup class so we can register our new service there.</p>
+<pre><code>using ConsoleAppWithDI.UI.Services;
+using Microsoft.Extensions.DependencyInjection;
+
+...
+
+public static IServiceCollection ConfigureServices()
+{
+    var services = new ServiceCollection();
+
+    services.AddSingleton&#x3C;IQuadraticService, QuadraticService>();
+
+    services.AddTransient&#x3C;EntryPoint>();
+
+    return services;
+}
+
+...
+</code></pre>
+<p>That's it! Now we can inject our service through a constructor into our EntryPoint class, lets try that.</p>
+<pre><code>using System;
+using ConsoleAppWithDI.UI.Services;
+
+...
+
+public class EntryPoint
+{
+    private readonly IQuadraticService _quadraticService;
+
+    public EntryPoint(IQuadraticService quadraticService)
+    {
+        this._quadraticService = quadraticService;
+    }
+
+...
+</code></pre>
+<p>Great! Lets take the arguments from the command line to set the polynomial coefficients in order (a, b, c). We need to modify the Run method in the EntryPoint class.</p>
+<pre><code>...
+
+public void Run(String[] args)
+{
+    var a = Double.Parse(args[0]);
+    var b = Double.Parse(args[1]);
+    var c = Double.Parse(args[2]);
+
+    var quadraticRoots = this._quadraticService.CalculateRoots(a, b, c);
+
+    Console.WriteLine($"Polynomial: {a}x^2 + {b}x + {c}");
+    if (quadraticRoots == null)
+    {
+        Console.WriteLine("The roots are not reals");
+    }
+    else if (quadraticRoots.FirstRoot == quadraticRoots.SecondRoot)
+    {
+        Console.WriteLine($"The double root is {quadraticRoots.FirstRoot}");
+    }
+    else
+    {
+        Console.WriteLine($"The roots are: {quadraticRoots.FirstRoot} and {quadraticRoots.SecondRoot}");
+    }
+}
+</code></pre>
+<p>It is not perfect but it works! We could have made use of some design pattern to avoid checking for nulls or doing so many checks for one simple output, but that's not the point here.</p>
+<p>This is not hard to implement and we can have a much more sophisticated Console Application using the built-in Dependency Injection from ASP.NET Core.</p>
+<p>We can run it from the command line, inside the project directory just execute the run command with the parameters you want for the coefficients. Since we haven't done any validation for the user inputs nor prepare for weird scenarios, it will fail if you miss a coefficient or pass text instead of numbers. You know it will... go easy on our app!</p>
+<pre><code>dotnet run 1 2 1
+</code></pre>
+<h2>Adding Configuration to our Console App</h2>
+<p>Go back to the terminal and navigate to the project directory. If you are using Visual Studio you can go to the NuGet Package Manager. We will install the Microsoft.Extensions.Configuration.Json package.</p>
+<pre><code>cd ConsoleAppWithDI.UI
+dotnet add package Microsoft.Extensions.Configuration.Json
+</code></pre>
+<p>With the package in place we can go back to our IDE and add the following to the Startup class.</p>
+<pre><code>using System.IO;
+using ConsoleAppWithDI.UI.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+...
+
+public static IServiceCollection ConfigureServices()
+{
+    var services = new ServiceCollection();
+
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
+    IConfiguration configuration = builder.Build();
+    services.AddSingleton(configuration);
+
+    services.AddSingleton&#x3C;IQuadraticService, QuadraticService>();
+
+    services.AddTransient&#x3C;EntryPoint>();
+
+    return services;
+}
+</code></pre>
+<p>Here I'm using optional: true, reloadOnChange: false and my current directory as the BasePath, but you can change those values to whatever suits you better.</p>
+<p>That's all! We are ready to inject the Configuration as well. Lets try to read the values for our roots calculator from our settings! First we need to create our appsettings.json file with the following content.</p>
+<pre><code>{
+    "PolynomialCoefficients": {
+        "A": 1,
+        "B": 2,
+        "C": 1
+    }
+}
+</code></pre>
+<p>If you are doing this from Visual Studio, you can just right click your new appsettings.json file, go to Properties and set the "Copy to Output Directory" to "Preserve newest". In case you are using Visual Studio Code or other Text Editor, you can do it by editing the csproj file.</p>
+<pre><code>...
+
+&#x3C;ItemGroup>
+  &#x3C;None Update="appsettings.json">
+    &#x3C;CopyToOutputDirectory>PreserveNewest&#x3C;/CopyToOutputDirectory>
+  &#x3C;/None>
+&#x3C;/ItemGroup>
+
+...
+</code></pre>
+<p>Now lets inject the Configuration into the EntryPoint class. We will use the values for the polynomial coefficients from the appsettings.json file. I know, we are actually making the application worse, but it's just to demo the Configuration. We are going to get rid of this later, I promise!</p>
+<pre><code>using System;
+using ConsoleAppWithDI.UI.Services;
+using Microsoft.Extensions.Configuration;
+
+...
+
+private readonly IQuadraticService _quadraticService;
+private readonly IConfiguration _configuration;
+
+
+public EntryPoint(IQuadraticService quadraticService, IConfiguration configuration)
+{
+    this._quadraticService = quadraticService;
+    this._configuration = configuration;
+}
+
+...
+
+public void Run(String[] args)
+{
+    var a = Double.Parse(this._configuration["PolynomialCoefficients:A"]);
+    var b = Double.Parse(this._configuration["PolynomialCoefficients:B"]);
+    var c = Double.Parse(this._configuration["PolynomialCoefficients:C"]);
+
+...
+</code></pre>
+<p>If we run the application now, we can do it without any arguments. It will take the values from the appsettings file.</p>
+<pre><code>dotnet run
+</code></pre>
+<h2>Adding Logging to our Console App</h2>
+<p>The .NET Core Logging is not really hard to implement, but it won't write log to files or databases out of the box. I'm going to first show you how to implement it so it can write its output to the console and then to files using Serilog, an open source third party logger.</p>
+<p>First we need to install the Microsoft.Extensions.Logging.Console package. You can do it from the NuGet Package Manager or the terminal.</p>
+<pre><code>dotnet add package Microsoft.Extensions.Logging.Console
+</code></pre>
+<p>Once you've done that, the only thing we need to set up the Logging is to add a small block into the Startup class</p>
+<pre><code>using System.IO;
+using ConsoleAppWithDI.UI.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+...
+
+public static IServiceCollection ConfigureServices()
+{
+    var services = new ServiceCollection();
+
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
+    IConfiguration configuration = builder.Build();
+    services.AddSingleton(configuration);
+
+    services.AddLogging(builder =>
+    {
+        builder.AddConfiguration(configuration.GetSection("Logging"));
+        builder.AddConsole();
+    });
+
+...
+</code></pre>
+<p>In order for this to work, we have to add the Logging section to our configuration. So lets delete the previous content from the appsettings.json file and place instead the Logging settings.</p>
+<pre><code>{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Debug"
+        }
+    }
+}
+</code></pre>
+<p>Now we need to inject the logger in the EntryPoint class and, as I promised, change the way we tell our app the polynomial coefficients to be again by arguments.</p>
+<pre><code>using System;
+using ConsoleAppWithDI.UI.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+...
+
+private readonly IQuadraticService _quadraticService;
+private readonly IConfiguration _configuration;
+private readonly ILogger&#x3C;EntryPoint> _logger;
+
+public EntryPoint(IQuadraticService quadraticService, IConfiguration configuration, ILogger&#x3C;EntryPoint> logger)
+{
+    this._quadraticService = quadraticService;
+    this._configuration = configuration;
+    this._logger = logger;
+}
+
+...
+
+public void Run(String[] args)
+{
+    var a = Double.Parse(args[0]);
+    var b = Double.Parse(args[1]);
+    var c = Double.Parse(args[2]);
+
+    this._logger.LogDebug("The coefficients have been set!");
+
+...
+</code></pre>
+<p>If you now run the application you'll see the logging message in the console.</p>
+<pre><code>dotnet run 1 2 1
+</code></pre>
+<h2>Adding Serilog to our Console App</h2>
+<p>Lets add the Serilog packages so we can add to the Console output a text file output.</p>
+<p>First we install the following packages:</p>
+<ul>
+<li>Serilog.Sinks.File</li>
+<li>Serilog.Extensions.Logging</li>
+<li>Serilog.Settings.Configuration</li>
+</ul>
+<pre><code>dotnet add package Serilog.Sinks.File
+dotnet add package Serilog.Extensions.Logging
+dotnet add package Serilog.Settings.Configuration
+</code></pre>
+<p>Once those packages are added, we have to make a small change into the Startup class.</p>
+<pre><code>using System.IO;
+using ConsoleAppWithDI.UI.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
+
+...
+
+public static IServiceCollection ConfigureServices()
+{
+    var services = new ServiceCollection();
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+    IConfiguration configuration = builder.Build();
+
+    Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+
+    services.AddLogging(builder =>
+    {
+        builder.AddConfiguration(configuration.GetSection("Logging"));
+        builder.AddConsole();
+        builder.AddSerilog();
+    });
+
+...
+</code></pre>
+<p>Now for the Serilog configuration we need to add another section inside the appsettings.json file.</p>
+<pre><code>{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Debug"
+        }
+    },
+    "Serilog": {
+        "MinimumLevel": "Debug",
+        "WriteTo": [
+            {
+                "Name": "File",
+                "Args": {
+                    "Path": "LOG_PATH"
+                }
+            }
+        ]
+    }
+}
+</code></pre>
+<p>Replace the LOG_PATH value with an actual path to a file, like "/home/myuser/console.log" if you are on a Linux OS or "C:\Users\MyUser\Console.log". If you run the application now you can see that the file is created and the log that you can see in the console is also stored there.</p>
+<pre><code>dotnet run 1 2 1
+</code></pre>
+<p>I recommend you that, if you don't know already, check out more about Serilog! This example was extremely superficial compared to what it can do. It's a really powerful tool!</p>
+<p><a href="https://serilog.net/">Serilog</a></p>
+<h2>Thanks!</h2>
+<p>Thanks for reading this article! I hope this was helpful and as fun to read as it was to write! I'll leave the link to my GitHub repository with the code I've done here!</p>
+</div></article></main><div class="mb-5"><a href="/">← Back to home</a></div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"article":{"id":"console-app-with-di-configuration-and-logging","contentHtml":"\u003cp\u003eIf you ever wrote an ASP.NET Core Web Application or API, you surely know that the framework itself leans you into using its own Container for Dependency Injection. The same thing happens with the Configuration and Logging features. They are great, light weight and easy to use out of the box solutions for ASP.NET Core, but not as out of the box for a simple Console Application.\u003c/p\u003e\n\u003cp\u003eI'm assuming you already have everything installed and know enough to use NuGet Packages, the basics of Dependency Injection, Configuration and Logging since we will not be diving into that here. This article is about how to set up a Console Application to take advantage of those features.\u003c/p\u003e\n\u003ch2\u003eLets Code!\u003c/h2\u003e\n\u003cp\u003e\u003cem\u003eIf you just want to follow the guide without writing the code yourself, you can follow the link to my GitHub repository that has the code we are going to follow.\u003c/em\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"https://github.com/fedeantuna/ConsoleAppWithDI\"\u003eGitHub Repository\u003c/a\u003e\u003c/p\u003e\n\u003ch2\u003eAdding Dependency Injection to Console App\u003c/h2\u003e\n\u003cp\u003eI'll be using the Command Line Interface and Visual Studio Code on a Fedora 31 machine, but you should be able to follow this from any environment you want.\u003c/p\u003e\n\u003cp\u003eOpen your terminal, create a directory and inside, a Console App project.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003emkdir ConsoleAppWithDI\ncd ConsoleAppWithDI\ndotnet new sln\ndotnet new console -n ConsoleAppWithDI.UI\ndotnet sln add ConsoleAppWithDI.UI/ConsoleAppWithDI.UI.csproj\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eThese commands will set up the typical Solution with the Console App project. Now lets add the required NuGet package for DI: Microsoft.Extensions.DependencyInjection\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003ecd ConsoleAppWithDI.UI\ndotnet add package Microsoft.Extensions.DependencyInjection\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eOpen the solution in your favorite IDE, if you are on Windows with Visual Studio installed, you can just double click the created Solution. I'm going to open this on Visual Studio Code.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003ecd ..\ncode .\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eAs in an ASP.NET Core Application, we will configure multiple services and instantiate a provider. So lets start by creating the Startup class in a Startup.cs file in the same directory that is our Program.cs.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing Microsoft.Extensions.DependencyInjection;\n\nnamespace ConsoleAppWithDI.UI\n{\n    public static class Startup\n    {\n        public static IServiceCollection ConfigureServices()\n        {\n            var serviceCollection = new ServiceCollection();\n\n            // We'll come back here later to set up an entry point and\n            // our services\n\n            return serviceCollection;\n        }\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eNow lets add the class for the Entry Point of our Application. I usually name this class as EntryPoint but you can name it whatever you want!\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\n\nnamespace ConsoleAppWithDI.UI\n{\n    public class EntryPoint\n    {\n        public void Run(String[] args)\n        {\n            // Our logic\n        }\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eWe already have the Entry Point and the Container ready to set up services, but we need to put all of this together. If we run the application like it is, it will just output \"Hello world!\" and ignore everything else we did. We have to replace the code on our Main method, inside our Program class, to call the DI Container and our new Entry Point.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\nusing Microsoft.Extensions.DependencyInjection;\n\nnamespace ConsoleAppWithDI.UI\n{\n    public class Program\n    {\n        public static void Main(String[] args)\n        {\n            var services = Startup.ConfigureServices();\n            var serviceProvider = services.BuildServiceProvider();\n\n            serviceProvider.GetService\u0026#x3C;EntryPoint\u003e().Run(args);\n        }\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eAnd now we register the EntryPoint class as a transient in the Startup class\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e...\n\npublic static IServiceCollection ConfigureServices()\n{\n    var services = new ServiceCollection();\n\n    services.AddTransient\u0026#x3C;EntryPoint\u003e();\n\n    return services;\n}\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eAlright! We have everything set up for DI! Now we are able to use our Startup class to configure the container as we would on a ASP.NET Core Application. Lets add a small service that we can inject to see if everything works as expected! Lets try to calculate the roots of a second degree polynomial, ignoring complex roots. If you don't know or don't remember, here is the formula we have to use\u003c/p\u003e\n\u003cp\u003e\u003cimg src=\"/images/console-app-with-di-configuration-and-logging-01.png\" alt=\"quadratic formula\"\u003e\u003c/p\u003e\n\u003cp\u003eLets start by adding a QuadraticRoots entity. I won't be following any pattern here, so please don't take this as a DDD guide, it's just a simple example to test out our Dependency Injection.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\n\nnamespace ConsoleAppWithDI.UI.Entities\n{\n    public class QuadraticRoots\n    {\n        public Double FirstRoot { get; set; }\n        public Double SecondRoot { get; set; }\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eNow we will add the Interface for our service.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\nusing ConsoleAppWithDI.UI.Entities;\n\nnamespace ConsoleAppWithDI.UI.Services\n{\n    public interface IQuadraticService\n    {\n        QuadraticRoots CalculateRoots(Double a, Double b, Double c);\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eAnd the actual service.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\nusing ConsoleAppWithDI.UI.Entities;\n\nnamespace ConsoleAppWithDI.UI.Services\n{\n    public class QuadraticService : IQuadraticService\n    {\n        public QuadraticRoots CalculateRoots(Double a, Double b, Double c)\n        {\n            var discriminant = Math.Pow(b, 2) - (4 * a * c);\n\n            if (discriminant \u0026#x3C; 0)\n            {\n                return null;\n            }\n\n            var quadraticRoots = new QuadraticRoots();\n\n            if (discriminant ==  0)\n            {\n                quadraticRoots.FirstRoot = quadraticRoots.SecondRoot = ((- b) + (Math.Sqrt(discriminant))) / (2 * a);\n            }\n            else\n            {\n                quadraticRoots.FirstRoot = ((- b) + (Math.Sqrt(discriminant))) / (2 * a);\n                quadraticRoots.SecondRoot = ((- b) - (Math.Sqrt(discriminant))) / (2 * a);\n            }\n\n            return quadraticRoots;\n        }\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eLets go back to our Startup class so we can register our new service there.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing ConsoleAppWithDI.UI.Services;\nusing Microsoft.Extensions.DependencyInjection;\n\n...\n\npublic static IServiceCollection ConfigureServices()\n{\n    var services = new ServiceCollection();\n\n    services.AddSingleton\u0026#x3C;IQuadraticService, QuadraticService\u003e();\n\n    services.AddTransient\u0026#x3C;EntryPoint\u003e();\n\n    return services;\n}\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eThat's it! Now we can inject our service through a constructor into our EntryPoint class, lets try that.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\nusing ConsoleAppWithDI.UI.Services;\n\n...\n\npublic class EntryPoint\n{\n    private readonly IQuadraticService _quadraticService;\n\n    public EntryPoint(IQuadraticService quadraticService)\n    {\n        this._quadraticService = quadraticService;\n    }\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eGreat! Lets take the arguments from the command line to set the polynomial coefficients in order (a, b, c). We need to modify the Run method in the EntryPoint class.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e...\n\npublic void Run(String[] args)\n{\n    var a = Double.Parse(args[0]);\n    var b = Double.Parse(args[1]);\n    var c = Double.Parse(args[2]);\n\n    var quadraticRoots = this._quadraticService.CalculateRoots(a, b, c);\n\n    Console.WriteLine($\"Polynomial: {a}x^2 + {b}x + {c}\");\n    if (quadraticRoots == null)\n    {\n        Console.WriteLine(\"The roots are not reals\");\n    }\n    else if (quadraticRoots.FirstRoot == quadraticRoots.SecondRoot)\n    {\n        Console.WriteLine($\"The double root is {quadraticRoots.FirstRoot}\");\n    }\n    else\n    {\n        Console.WriteLine($\"The roots are: {quadraticRoots.FirstRoot} and {quadraticRoots.SecondRoot}\");\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eIt is not perfect but it works! We could have made use of some design pattern to avoid checking for nulls or doing so many checks for one simple output, but that's not the point here.\u003c/p\u003e\n\u003cp\u003eThis is not hard to implement and we can have a much more sophisticated Console Application using the built-in Dependency Injection from ASP.NET Core.\u003c/p\u003e\n\u003cp\u003eWe can run it from the command line, inside the project directory just execute the run command with the parameters you want for the coefficients. Since we haven't done any validation for the user inputs nor prepare for weird scenarios, it will fail if you miss a coefficient or pass text instead of numbers. You know it will... go easy on our app!\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003edotnet run 1 2 1\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003eAdding Configuration to our Console App\u003c/h2\u003e\n\u003cp\u003eGo back to the terminal and navigate to the project directory. If you are using Visual Studio you can go to the NuGet Package Manager. We will install the Microsoft.Extensions.Configuration.Json package.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003ecd ConsoleAppWithDI.UI\ndotnet add package Microsoft.Extensions.Configuration.Json\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eWith the package in place we can go back to our IDE and add the following to the Startup class.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System.IO;\nusing ConsoleAppWithDI.UI.Services;\nusing Microsoft.Extensions.Configuration;\nusing Microsoft.Extensions.DependencyInjection;\n\n...\n\npublic static IServiceCollection ConfigureServices()\n{\n    var services = new ServiceCollection();\n\n    var builder = new ConfigurationBuilder()\n        .SetBasePath(Directory.GetCurrentDirectory())\n        .AddJsonFile(\"appsettings.json\", optional: true, reloadOnChange: false);\n    IConfiguration configuration = builder.Build();\n    services.AddSingleton(configuration);\n\n    services.AddSingleton\u0026#x3C;IQuadraticService, QuadraticService\u003e();\n\n    services.AddTransient\u0026#x3C;EntryPoint\u003e();\n\n    return services;\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eHere I'm using optional: true, reloadOnChange: false and my current directory as the BasePath, but you can change those values to whatever suits you better.\u003c/p\u003e\n\u003cp\u003eThat's all! We are ready to inject the Configuration as well. Lets try to read the values for our roots calculator from our settings! First we need to create our appsettings.json file with the following content.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e{\n    \"PolynomialCoefficients\": {\n        \"A\": 1,\n        \"B\": 2,\n        \"C\": 1\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eIf you are doing this from Visual Studio, you can just right click your new appsettings.json file, go to Properties and set the \"Copy to Output Directory\" to \"Preserve newest\". In case you are using Visual Studio Code or other Text Editor, you can do it by editing the csproj file.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e...\n\n\u0026#x3C;ItemGroup\u003e\n  \u0026#x3C;None Update=\"appsettings.json\"\u003e\n    \u0026#x3C;CopyToOutputDirectory\u003ePreserveNewest\u0026#x3C;/CopyToOutputDirectory\u003e\n  \u0026#x3C;/None\u003e\n\u0026#x3C;/ItemGroup\u003e\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eNow lets inject the Configuration into the EntryPoint class. We will use the values for the polynomial coefficients from the appsettings.json file. I know, we are actually making the application worse, but it's just to demo the Configuration. We are going to get rid of this later, I promise!\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\nusing ConsoleAppWithDI.UI.Services;\nusing Microsoft.Extensions.Configuration;\n\n...\n\nprivate readonly IQuadraticService _quadraticService;\nprivate readonly IConfiguration _configuration;\n\n\npublic EntryPoint(IQuadraticService quadraticService, IConfiguration configuration)\n{\n    this._quadraticService = quadraticService;\n    this._configuration = configuration;\n}\n\n...\n\npublic void Run(String[] args)\n{\n    var a = Double.Parse(this._configuration[\"PolynomialCoefficients:A\"]);\n    var b = Double.Parse(this._configuration[\"PolynomialCoefficients:B\"]);\n    var c = Double.Parse(this._configuration[\"PolynomialCoefficients:C\"]);\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eIf we run the application now, we can do it without any arguments. It will take the values from the appsettings file.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003edotnet run\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003eAdding Logging to our Console App\u003c/h2\u003e\n\u003cp\u003eThe .NET Core Logging is not really hard to implement, but it won't write log to files or databases out of the box. I'm going to first show you how to implement it so it can write its output to the console and then to files using Serilog, an open source third party logger.\u003c/p\u003e\n\u003cp\u003eFirst we need to install the Microsoft.Extensions.Logging.Console package. You can do it from the NuGet Package Manager or the terminal.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003edotnet add package Microsoft.Extensions.Logging.Console\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eOnce you've done that, the only thing we need to set up the Logging is to add a small block into the Startup class\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System.IO;\nusing ConsoleAppWithDI.UI.Services;\nusing Microsoft.Extensions.Configuration;\nusing Microsoft.Extensions.DependencyInjection;\nusing Microsoft.Extensions.Logging;\n\n...\n\npublic static IServiceCollection ConfigureServices()\n{\n    var services = new ServiceCollection();\n\n    var builder = new ConfigurationBuilder()\n        .SetBasePath(Directory.GetCurrentDirectory())\n        .AddJsonFile(\"appsettings.json\", optional: true, reloadOnChange: false);\n    IConfiguration configuration = builder.Build();\n    services.AddSingleton(configuration);\n\n    services.AddLogging(builder =\u003e\n    {\n        builder.AddConfiguration(configuration.GetSection(\"Logging\"));\n        builder.AddConsole();\n    });\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eIn order for this to work, we have to add the Logging section to our configuration. So lets delete the previous content from the appsettings.json file and place instead the Logging settings.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e{\n    \"Logging\": {\n        \"LogLevel\": {\n            \"Default\": \"Debug\"\n        }\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eNow we need to inject the logger in the EntryPoint class and, as I promised, change the way we tell our app the polynomial coefficients to be again by arguments.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System;\nusing ConsoleAppWithDI.UI.Services;\nusing Microsoft.Extensions.Configuration;\nusing Microsoft.Extensions.Logging;\n\n...\n\nprivate readonly IQuadraticService _quadraticService;\nprivate readonly IConfiguration _configuration;\nprivate readonly ILogger\u0026#x3C;EntryPoint\u003e _logger;\n\npublic EntryPoint(IQuadraticService quadraticService, IConfiguration configuration, ILogger\u0026#x3C;EntryPoint\u003e logger)\n{\n    this._quadraticService = quadraticService;\n    this._configuration = configuration;\n    this._logger = logger;\n}\n\n...\n\npublic void Run(String[] args)\n{\n    var a = Double.Parse(args[0]);\n    var b = Double.Parse(args[1]);\n    var c = Double.Parse(args[2]);\n\n    this._logger.LogDebug(\"The coefficients have been set!\");\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eIf you now run the application you'll see the logging message in the console.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003edotnet run 1 2 1\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003eAdding Serilog to our Console App\u003c/h2\u003e\n\u003cp\u003eLets add the Serilog packages so we can add to the Console output a text file output.\u003c/p\u003e\n\u003cp\u003eFirst we install the following packages:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eSerilog.Sinks.File\u003c/li\u003e\n\u003cli\u003eSerilog.Extensions.Logging\u003c/li\u003e\n\u003cli\u003eSerilog.Settings.Configuration\u003c/li\u003e\n\u003c/ul\u003e\n\u003cpre\u003e\u003ccode\u003edotnet add package Serilog.Sinks.File\ndotnet add package Serilog.Extensions.Logging\ndotnet add package Serilog.Settings.Configuration\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eOnce those packages are added, we have to make a small change into the Startup class.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eusing System.IO;\nusing ConsoleAppWithDI.UI.Services;\nusing Microsoft.Extensions.Configuration;\nusing Microsoft.Extensions.DependencyInjection;\nusing Microsoft.Extensions.Logging;\nusing Serilog;\n\n...\n\npublic static IServiceCollection ConfigureServices()\n{\n    var services = new ServiceCollection();\n    var builder = new ConfigurationBuilder()\n        .SetBasePath(Directory.GetCurrentDirectory())\n        .AddJsonFile(\"appsettings.json\", optional: false, reloadOnChange: false);\n    IConfiguration configuration = builder.Build();\n\n    Log.Logger = new LoggerConfiguration()\n        .ReadFrom.Configuration(configuration)\n        .CreateLogger();\n\n    services.AddLogging(builder =\u003e\n    {\n        builder.AddConfiguration(configuration.GetSection(\"Logging\"));\n        builder.AddConsole();\n        builder.AddSerilog();\n    });\n\n...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eNow for the Serilog configuration we need to add another section inside the appsettings.json file.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e{\n    \"Logging\": {\n        \"LogLevel\": {\n            \"Default\": \"Debug\"\n        }\n    },\n    \"Serilog\": {\n        \"MinimumLevel\": \"Debug\",\n        \"WriteTo\": [\n            {\n                \"Name\": \"File\",\n                \"Args\": {\n                    \"Path\": \"LOG_PATH\"\n                }\n            }\n        ]\n    }\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eReplace the LOG_PATH value with an actual path to a file, like \"/home/myuser/console.log\" if you are on a Linux OS or \"C:\\Users\\MyUser\\Console.log\". If you run the application now you can see that the file is created and the log that you can see in the console is also stored there.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003edotnet run 1 2 1\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eI recommend you that, if you don't know already, check out more about Serilog! This example was extremely superficial compared to what it can do. It's a really powerful tool!\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"https://serilog.net/\"\u003eSerilog\u003c/a\u003e\u003c/p\u003e\n\u003ch2\u003eThanks!\u003c/h2\u003e\n\u003cp\u003eThanks for reading this article! I hope this was helpful and as fun to read as it was to write! I'll leave the link to my GitHub repository with the code I've done here!\u003c/p\u003e\n","title":"How to build a .NET Core 3.1 Console Application with built-in Dependency Injection, Configuration and Logging","date":"2020-02-08"}},"__N_SSG":true},"page":"/article/[id]","query":{"id":"console-app-with-di-configuration-and-logging"},"buildId":"uUHk-L1hqSdXYvC986Eik","isFallback":false,"gsp":true}</script><script nomodule="" src="/_next/static/chunks/polyfills-8f31809deb7932dd0187.js"></script><script src="/_next/static/chunks/webpack-50bee04d1dc61f8adf5b.js" async=""></script><script src="/_next/static/chunks/framework.4b81eedf2fcdb09bf521.js" async=""></script><script src="/_next/static/chunks/commons.4825e5e9d187cd4ab7dd.js" async=""></script><script src="/_next/static/chunks/main-86c34d104cdfe5877fdd.js" async=""></script><script src="/_next/static/chunks/pages/_app-6845169ed0c82dde6599.js" async=""></script><script src="/_next/static/chunks/63c1bd8fe8e29f7d1674476eb835b66f2691ac72.e2e40b0b868ffac3db3c.js" async=""></script><script src="/_next/static/chunks/pages/article/%5Bid%5D-a1e1aaf80fe42cc5b9f0.js" async=""></script><script src="/_next/static/uUHk-L1hqSdXYvC986Eik/_buildManifest.js" async=""></script><script src="/_next/static/uUHk-L1hqSdXYvC986Eik/_ssgManifest.js" async=""></script></body></html>
