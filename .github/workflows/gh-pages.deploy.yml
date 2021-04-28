@@ -31,6 +31,8 @@ jobs:
         run: npm run export
       - name: Add .nojekyll file
         run: touch ./out/.nojekyll
+      - name: Add Brave Rewards Verification Token
+        run: cp -r .well-known/ out/
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
