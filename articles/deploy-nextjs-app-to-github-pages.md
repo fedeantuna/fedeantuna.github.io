@@ -3,7 +3,7 @@ title: 'Deploy NEXT.JS App to GitHub Pages'
 date: '2021-04-29'
 ---
 
-These last couple of days I've been wanting to create a simple and straight forward blog, to just keep the articles that I write and present myself. So I decided to do that using GitHub Pages and a simple NEXT.JS application, very similar to the one shown in the [official tutorial](https://nextjs.org/learn/basics/create-nextjs-app). ~~It suprised me how little and misleading information I found on how to do that, so I'm writing this.~~ While making this guide I found a video that explains a similar approach to what I did and it's worth taking a look at it! [You can check it out here](https://www.youtube.com/watch?v=yRz8D_oJMWQ). It would have save me some effort finding this earlier.
+These last couple of days I've been wanting to create a simple and straight forward blog, to just keep the articles that I write and present myself. So I decided to do that using GitHub Pages and a simple NEXT.JS application, very similar to the one shown in the [official tutorial](https://nextjs.org/learn/basics/create-nextjs-app). <strike>It suprised me how little and misleading information I found on how to do that, so I'm writing this.</strike> While making this guide I found a video that explains a similar approach to what I did and it's worth taking a look at it! [You can check it out here](https://www.youtube.com/watch?v=yRz8D_oJMWQ). It would have save me some effort finding this earlier.
 
 ## Conditions
 
