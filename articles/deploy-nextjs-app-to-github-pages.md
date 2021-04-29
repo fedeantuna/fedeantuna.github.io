@@ -42,6 +42,12 @@ I will assume that you already have a NEXT.JS app. In order to test if your app 
 
 And now if you run `npm run build && npm run export` without problems, then your app is ready.
 
+## Why?
+
+Why would we try to do something like this if _Vercel_ let's us publish the app without the need of using `next export` for free? If it's just a blog, why bother on doing all this to just deploy GitHub Pages? Well, in my case, it was because I wanted to accept _Brave Rewards_ and it turns out that that's against _Vercel_'s fair use policy (I asked the _Vercel_ team).
+
+And I also like the idea of having my blog under _.github.io_.
+
 ## GitHub Repository
 
 We can use an existent repository for a project site or we can create one for our user or organization site. You can read [here](https://pages.github.com/) for more information. The first one is a bit more complicated, but we will address the issues that might present later.
