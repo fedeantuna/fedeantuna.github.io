@@ -59,3 +59,7 @@ img {
 p {
 	@apply mt-2;
 }
+
+blockquote {
+	@apply border-l-4;
+}
