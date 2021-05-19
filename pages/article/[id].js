@@ -28,7 +28,7 @@ const Article = ({ article }) => {
 				<base target='_blank'></base>
 			</Head>
 			<article>
-				<h1 className='text-center text-2xl mt-5'>{article.title}</h1>
+				<h1>{article.title}</h1>
 				<div className='text-center text-sm'>
 					<Date dateString={article.date} />
 				</div>

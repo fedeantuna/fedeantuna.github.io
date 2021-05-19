@@ -22,18 +22,21 @@ a:hover {
 }
 
 h1 {
-	@apply text-2xl mt-5;
+	@apply text-5xl mt-5 font-bold;
 }
 
 h2 {
-	@apply text-xl mt-5;
+	@apply text-3xl mt-3 font-bold;
 }
 
-h3,
+h3 {
+	@apply text-xl mt-2 font-bold;
+}
+
 h4,
 h5,
 h6 {
-	@apply text-lg mt-5;
+	@apply text-lg mt-2 font-bold;
 }
 
 ul {
@@ -49,7 +52,7 @@ li {
 }
 
 pre {
-	@apply px-2 py-2 mt-5 mb-5 bg-gray-200 whitespace-pre-wrap break-words;
+	@apply px-2 py-2 mt-5 mb-5 bg-gray-200 whitespace-pre-wrap break-words text-sm;
 }
 
 img {

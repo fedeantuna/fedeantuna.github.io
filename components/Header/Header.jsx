@@ -14,8 +14,8 @@ const Header = ({ name, title, isHomePage }) => {
 						/>
 					</div>
 					<div className='self-center'>
-						<h1 className='m-0 text-2xl'>{name}</h1>
-						<h2 className='m-0'>{title}</h2>
+						<h1 className='m-0 text-2xl font-normal'>{name}</h1>
+						<h2 className='m-0 text-lg font-normal'>{title}</h2>
 						<SocialBar
 							linkedin='https://linkedin.com/in/federicoantuna/'
 							github='https://github.com/fedeantuna'
@@ -34,12 +34,12 @@ const Header = ({ name, title, isHomePage }) => {
 						</a>
 					</Link>
 					<div className='self-center'>
-						<h2 className='m-0'>
+						<h2 className='m-0 text-2xl font-normal'>
 							<Link href='/'>
 								<a>{name}</a>
 							</Link>
 						</h2>
-						<h2 className='m-0 text-sm'>{title}</h2>
+						<h2 className='m-0 text-sm font-normal'>{title}</h2>
 						<SocialBar
 							small
 							linkedin='https://www.linkedin.com/in/federicoantuna/'
